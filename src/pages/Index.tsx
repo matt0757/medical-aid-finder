@@ -14,11 +14,16 @@ const Index = () => {
             <div className="flex-shrink-0 flex items-center">
               <span className="text-2xl font-bold text-blue-600">MedConnect</span>
             </div>
-            <nav className="flex space-x-4">
-              <a href="#about" className="text-gray-500 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">About</a>
-              <a href="#services" className="text-gray-500 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">Services</a>
-              <a href="#contact" className="text-gray-500 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">Contact</a>
-            </nav>
+            <div className="flex items-center space-x-4">
+              <nav className="hidden md:flex space-x-4">
+                <a href="#about" className="text-gray-500 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">About</a>
+                <a href="#services" className="text-gray-500 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">Services</a>
+                <a href="#contact" className="text-gray-500 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">Contact</a>
+              </nav>
+              <Link to="/login">
+                <Button className="bg-blue-600 hover:bg-blue-700">Sign In</Button>
+              </Link>
+            </div>
           </div>
         </div>
       </header>
