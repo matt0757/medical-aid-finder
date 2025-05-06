@@ -1,6 +1,6 @@
 
-import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useNavigate, Link, useSearchParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -22,9 +22,16 @@ const loginSchema = z.object({
 type LoginFormValues = z.infer<typeof loginSchema>;
 
 const Login = () => {
-  const [isPatient, setIsPatient] = useState(true);
+  const [searchParams] = useSearchParams();
+  const typeParam = searchParams.get('type');
+  const [isPatient, setIsPatient] = useState(typeParam !== 'clinician');
   const navigate = useNavigate();
   const { toast } = useToast();
+
+  useEffect(() => {
+    // Update isPatient state when the URL parameter changes
+    setIsPatient(typeParam !== 'clinician');
+  }, [typeParam]);
 
   const form = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),

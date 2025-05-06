@@ -56,9 +56,9 @@ const Index = () => {
                 <p className="mt-3 text-gray-600 mb-6">
                   Access our AI-powered tools to get pre-diagnosis assistance, schedule appointments, and manage your medical documents.
                 </p>
-                <Link to="/patient">
+                <Link to="/login?type=patient">
                   <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white w-full">
-                    Patient Access
+                    Patient Sign In
                   </Button>
                 </Link>
               </div>
@@ -72,9 +72,9 @@ const Index = () => {
                 <p className="mt-3 text-gray-600 mb-6">
                   Manage patient appointments, access medical records, and collaborate with other healthcare professionals.
                 </p>
-                <Link to="/clinician">
+                <Link to="/login?type=clinician">
                   <Button size="lg" className="bg-green-600 hover:bg-green-700 text-white w-full">
-                    Clinician Access
+                    Clinician Sign In
                   </Button>
                 </Link>
               </div>
