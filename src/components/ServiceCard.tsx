@@ -6,11 +6,15 @@ interface ServiceCardProps {
   description: string;
   icon: LucideIcon;
   color: string;
+  onClick?: () => void;
 }
 
-const ServiceCard = ({ title, description, icon: Icon, color }: ServiceCardProps) => {
+const ServiceCard = ({ title, description, icon: Icon, color, onClick }: ServiceCardProps) => {
   return (
-    <div className="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow p-6 border border-gray-100">
+    <div 
+      className={`bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow p-6 border border-gray-100 ${onClick ? 'cursor-pointer' : ''}`}
+      onClick={onClick}
+    >
       <div className={`inline-flex items-center justify-center p-3 rounded-lg ${color}`}>
         <Icon className="h-6 w-6 text-white" />
       </div>
