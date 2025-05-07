@@ -1,6 +1,6 @@
 
-import { useState, useEffect } from "react";
-import { useNavigate, Link, useSearchParams } from "react-router-dom";
+import { useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -10,52 +10,54 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { User, Lock, Mail } from "lucide-react";
+import { Mail, Lock, User } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
-const loginSchema = z.object({
+const signUpSchema = z.object({
+  fullName: z.string().min(2, { message: "Full name must be at least 2 characters" }),
   email: z.string().email({ message: "Please enter a valid email address" }),
   password: z.string().min(8, { message: "Password must be at least 8 characters" }),
-  rememberMe: z.boolean().optional(),
+  confirmPassword: z.string().min(8, { message: "Confirm password must be at least 8 characters" }),
+  agreeToTerms: z.boolean().refine(val => val === true, {
+    message: "You must agree to the terms and conditions"
+  })
+}).refine((data) => data.password === data.confirmPassword, {
+  message: "Passwords do not match",
+  path: ["confirmPassword"],
 });
 
-type LoginFormValues = z.infer<typeof loginSchema>;
+type SignUpFormValues = z.infer<typeof signUpSchema>;
 
-const Login = () => {
-  const [searchParams] = useSearchParams();
-  const typeParam = searchParams.get('type');
-  const [isPatient, setIsPatient] = useState(typeParam !== 'clinician');
+const SignUp = () => {
+  const [isPatient, setIsPatient] = useState(true);
   const navigate = useNavigate();
   const { toast } = useToast();
 
-  useEffect(() => {
-    // Update isPatient state when the URL parameter changes
-    setIsPatient(typeParam !== 'clinician');
-  }, [typeParam]);
-
-  const form = useForm<LoginFormValues>({
-    resolver: zodResolver(loginSchema),
+  const form = useForm<SignUpFormValues>({
+    resolver: zodResolver(signUpSchema),
     defaultValues: {
+      fullName: "",
       email: "",
       password: "",
-      rememberMe: false,
+      confirmPassword: "",
+      agreeToTerms: false,
     },
   });
 
-  const onSubmit = (data: LoginFormValues) => {
+  const onSubmit = (data: SignUpFormValues) => {
     // This would connect to your backend auth system
-    console.log("Login attempted with:", data);
+    console.log("Sign up attempted with:", data);
     
-    // For now, we'll just mock successful login and redirect
+    // For now, we'll just mock successful signup and redirect
     toast({
-      title: "Login Successful",
-      description: "Welcome back to MedConnect!",
+      title: "Account created successfully",
+      description: "Welcome to MedConnect! You can now log in.",
     });
     
-    // Redirect based on user type
+    // Redirect to login page after successful signup
     setTimeout(() => {
-      navigate(isPatient ? "/patient" : "/clinician");
-    }, 1000);
+      navigate("/login");
+    }, 1500);
   };
 
   return (
@@ -80,9 +82,9 @@ const Login = () => {
         <div className="w-full max-w-md">
           <Card className="border-gray-200 shadow-lg">
             <CardHeader className="space-y-1">
-              <CardTitle className="text-2xl font-bold text-center">Sign in to MedConnect</CardTitle>
+              <CardTitle className="text-2xl font-bold text-center">Create an account</CardTitle>
               <CardDescription className="text-center">
-                Enter your email and password to access your account
+                Enter your information to create an account
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -111,6 +113,22 @@ const Login = () => {
 
               <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+                  <FormField
+                    control={form.control}
+                    name="fullName"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Full Name</FormLabel>
+                        <FormControl>
+                          <div className="relative">
+                            <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500" size={18} />
+                            <Input className="pl-10" placeholder="John Doe" {...field} />
+                          </div>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
                   <FormField
                     control={form.control}
                     name="email"
@@ -148,26 +166,58 @@ const Login = () => {
                       </FormItem>
                     )}
                   />
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-2">
-                      <Checkbox id="remember" {...form.register("rememberMe")} />
-                      <Label htmlFor="remember" className="text-sm text-gray-500">Remember me</Label>
-                    </div>
-                    <Button variant="link" className="p-0 h-auto text-sm text-blue-600" type="button">
-                      Forgot password?
-                    </Button>
-                  </div>
+                  <FormField
+                    control={form.control}
+                    name="confirmPassword"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Confirm Password</FormLabel>
+                        <FormControl>
+                          <div className="relative">
+                            <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500" size={18} />
+                            <Input 
+                              className="pl-10" 
+                              type="password" 
+                              placeholder="••••••••" 
+                              {...field} 
+                            />
+                          </div>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="agreeToTerms"
+                    render={({ field }) => (
+                      <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                        <FormControl>
+                          <Checkbox 
+                            checked={field.value} 
+                            onCheckedChange={field.onChange}
+                          />
+                        </FormControl>
+                        <div className="space-y-1 leading-none">
+                          <FormLabel className="text-sm text-gray-500">
+                            I agree to the <Link to="#" className="text-blue-600 hover:underline">Terms of Service</Link> and <Link to="#" className="text-blue-600 hover:underline">Privacy Policy</Link>
+                          </FormLabel>
+                          <FormMessage />
+                        </div>
+                      </FormItem>
+                    )}
+                  />
                   <Button type="submit" className="w-full bg-blue-600 hover:bg-blue-700">
-                    Sign in
+                    Create account
                   </Button>
                 </form>
               </Form>
             </CardContent>
             <CardFooter className="flex flex-col space-y-4 items-center">
               <div className="text-sm text-gray-500">
-                Don't have an account yet?{" "}
-                <Link to="/signup" className="text-blue-600 hover:underline">
-                  Sign up
+                Already have an account?{" "}
+                <Link to="/login" className="text-blue-600 hover:underline">
+                  Sign in
                 </Link>
               </div>
             </CardFooter>
@@ -178,4 +228,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default SignUp;
