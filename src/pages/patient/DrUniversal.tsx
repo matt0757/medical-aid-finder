@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Search, ArrowLeft, Language } from "lucide-react";
+import { Search, ArrowLeft, Languages } from "lucide-react";
 import {
   Select,
   SelectContent,
@@ -167,7 +167,7 @@ const DrUniversal = () => {
             
             {/* Language selector */}
             <div className="flex items-center">
-              <Language className="h-5 w-5 text-gray-500 mr-2" />
+              <Languages className="h-5 w-5 text-gray-500 mr-2" />
               <Select value={language} onValueChange={handleLanguageChange}>
                 <SelectTrigger className="w-[180px]">
                   <SelectValue placeholder="Select language" />
