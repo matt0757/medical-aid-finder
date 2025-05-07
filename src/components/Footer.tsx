@@ -90,8 +90,9 @@ const Footer = () => {
               <li className="flex">
                 <MapPin className="h-5 w-5 text-blue-500 mr-3 flex-shrink-0" />
                 <span className="text-sm text-gray-600">
-                  123 Healthcare Blvd, <br />
-                  Medical City, CA 90210
+                  Universiti Malaya, <br />
+                  50603 Kuala Lumpur, <br />
+                  Wilayah Persekutuan Kuala Lumpur
                 </span>
               </li>
               <li className="flex">
@@ -102,8 +103,8 @@ const Footer = () => {
               </li>
               <li className="flex">
                 <Mail className="h-5 w-5 text-blue-500 mr-3 flex-shrink-0" />
-                <a href="mailto:info@medicare.com" className="text-sm text-gray-600 hover:text-gray-900">
-                  info@medicare.com
+                <a href="mailto:rojakuni@gmail.com" className="text-sm text-gray-600 hover:text-gray-900">
+                  rojakuni@gmail.com
                 </a>
               </li>
             </ul>

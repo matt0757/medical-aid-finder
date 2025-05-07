@@ -173,7 +173,7 @@ const Index = () => {
               <div className="grid grid-cols-1 gap-6">
                 <div className="text-center">
                   <h3 className="text-lg font-medium text-gray-900">Email</h3>
-                  <p className="mt-2 text-gray-600">support@medconnect.com</p>
+                  <p className="mt-2 text-gray-600">rojakuni@gmail.com</p>
                 </div>
                 <div className="text-center">
                   <h3 className="text-lg font-medium text-gray-900">Phone</h3>
@@ -181,7 +181,7 @@ const Index = () => {
                 </div>
                 <div className="text-center">
                   <h3 className="text-lg font-medium text-gray-900">Address</h3>
-                  <p className="mt-2 text-gray-600">123 Healthcare Ave, Medical District, CA 94103</p>
+                  <p className="mt-2 text-gray-600">Universiti Malaya, 50603 Kuala Lumpur, Wilayah Persekutuan Kuala Lumpur</p>
                 </div>
               </div>
             </div>
